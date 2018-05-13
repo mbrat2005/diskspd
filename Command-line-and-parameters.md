@@ -64,7 +64,7 @@ Using the parameters in Table 3, you can have DiskSpd display data concerning ev
 
 | Parameter | Description |
 | --- | ---|
-| `-e<q|c|s>` | Use a high-performance timer (QPC), cycle count or system timer respectively (default = q, high-performance timer (QPC)). |
+| `-e<q\|c\|s>` | Use a high-performance timer (QPC), cycle count or system timer respectively (default = q, high-performance timer (QPC)). |
 | `-ep` | Use paged memory for the NT Kernel Logger (default = non-paged memory). |
 | `-ePROCESS` | Capture process start and end events. |
 | `-eTHREAD` | Capture thread start and end events. |
