@@ -80,14 +80,14 @@ Table 3. Event Tracing for Windows (ETW) parameters
 ## Size conventions for DiskSpd parameters
 Several DiskSpd options take sizes and offsets specified as bytes or as a multiple of kilobytes, megabytes, gigabytes, or blocks: [K|M|G|b].
 
-The conventions used for referring to multiples of bytes are a common source of confusion. In networking and communication, these multiples are universally in powers of ten: e.g. a 'GB' is 10<sup>9</sup> (1 billion) bytes. By comparison, a 'GB' of RAM is universally understood to be 2<sup>30</sup> (1,073,741,824) bytes. Storage has historically been in a gray area where file sizes are spoken of in powers of two, but storage system manufacturers refer to total capacity in powers of ten. Since storage is always accessed over at least one (SAS, SATA) or more (PCI, Ethernet, InfiniBand) communication links, this adds complexity into the already challenging exercise of understanding end-to-end flows.
+Conventions used for referring to multiples of bytes are a common source of confusion. In networking and communication, these multiples are universally in powers of ten: e.g. a 'GB' is 10<sup>9</sup> (1 billion) bytes. By comparison, a 'GB' of RAM is universally understood to be 2<sup>30</sup> (1,073,741,824) bytes. Storage has historically been in a gray area where file sizes are spoken of in powers of two, but storage system manufacturers refer to total capacity in powers of ten. Since storage is always accessed over at least one (SAS, SATA) or more (PCI, Ethernet, InfiniBand) communication links, this adds complexity into the already challenging exercise of understanding end-to-end flows.
 
 The iB notation is an international convention which unambiguously refers to power of two-based sizing for numbers of bytes, as distinct from powers of ten which continue to use KB/MB/GB notation.
 * 1KiB = 2<sup>10</sup> = 1,024 bytes
 * 1MiB = 1024 KiB = 2<sup>20</sup> = 1,048,576 bytes
 * 1GiB = 1024 MiB = 2<sup>30</sup> = 1,073,741,824 bytes
 
-This notation will be used in this documentation. DiskSpd itself reports power of two-based quantities without the iB notation, though this may evolve over time.
+This notation will be used in this documentation. DiskSpd reports power of two-based quantities with the iB notation in text results. XML results are always reported in plain bytes.
 
 To specify sizes to DiskSpd:
 * bytes: use a plain number (65536)
