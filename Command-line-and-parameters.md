@@ -31,7 +31,7 @@ All available options and parameters are listed in the tables below and are furt
 | `-p` | Start asynchronous (overlapped) I/O operations with the same offset. Only applicable with two or more outstanding I/O requests per thread (`-o2` or greater) |
 | `-P<count>` | Print a progress dot after each specified `<count>` [default = 65536] of completed I/O operations. Counted separately by each thread. |
 | `-r<alignment>[K\|M\|G\|b]` | Random I/O aligned to the specified number of `<alignment>` bytes or KiB, MiB, GiB, or blocks. Overrides `-s`. |
-| `-R[text|xml]` | Display test results in either text or XML format (default: text). |
+| `-R[text\|xml]` | Display test results in either text or XML format (default: text). |
 | `-s[i]<size>[K\|M\|G\|b]` | Sequential stride size, offset between subsequent I/O operations in bytes or KiB, MiB, GiB, or blocks. Ignored if `-r` is specified (default access = sequential, default stride = block size). By default each thread tracks its own sequential offset. If the optional interlocked (`i`) qualifier is used, a single interlocked offset is shared between all threads operating on a given target so that the threads cooperatively issue a single sequential pattern of access to the target.  |
 | `-S[bhruw]` | This flag modifies the caching and write-through modes for the test target. Any non-conflicting combination of modifiers can be specified (`-Sbu` conflicts, `-Shw` specifies `w` twice) and are order independent (`-Suw` and `-Swu` are equivalent). By default, caching is on and write-through is not specified. |
 | `-S` | No modifying flags specified: disable software caching. Deprecated but still honored; see `-Su`. This opens the target with the FILE_FLAG_NO_BUFFERING flag. This is included in `-Sh`. |
