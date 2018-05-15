@@ -9,6 +9,15 @@ All available options and parameters are listed in the tables below and are furt
 | `-?` | Displays usage information for DiskSpd. |
 | `-ag` | Group affinity – affinitize threads in a round-robin manner across Processor Groups, starting at group 0. This is default. Use `-n` to disable affinity. |
 | `-ag#,#[,#,...]` | Advanced CPU affinity – affinitize threads round-robin to the CPUs provided. The g# notation specifies Processor Groups for the following CPU core #s. Multiple Processor Groups may be specified and groups/cores may be repeated. If no group is specified, 0 is assumed. Additional groups/processors may be added, comma separated, or on separate parameters. Examples: `-a0,1,2` and `-ag0,0,1,2` are equivalent. `-ag0,0,1,2,g1,0,1,2` specifies the first three cores in groups 0 and 1. `-ag0,0,1,2 -ag1,0,1,2` is an equivalent way of specifying the same pattern with two `-ag#` arguments. |
+| `-b<size>[K\|M\|G]` | Block size in bytes or KiB, MiB, or GiB (default = 64K). |
+| `-B<offset>[K\|M\|G\|b]` | Base target offset in bytes or KiB, MiB, GiB, or blocks from the beginning of the target (default offset = zero) |
+| `-c<size>[K\|M\|G\|b]` | Create files of the specified size. Size can be stated in bytes or KiBs, MiBs, GiBs, or blocks. |
+| `-C<seconds>` | Cool down time in seconds - continued duration of the test load after measurements are complete (default = zero seconds). |
+| `-D<milliseconds>` | Capture IOPs higher-order statistics in intervals of `<milliseconds>`. These are per-thread per-target: text output provides IOPs standard deviation. The XML output provides the full IOPs time series in addition (default = 1000ms or 1 second). |
+| `-d<seconds>` | Duration of measurement period in seconds, not including cool-down or warm-up time (default = 10 seconds). |
+| `-f<size>[K\|M\|G\|b]` | Target size - use only the first <size> bytes or KiB, MiB, GiB or blocks of the specified targets, for example to test only the first sectors of a disk. |
+| `-f<rst>` | Open file with one or more additional access hints specified to the operating system: `r`: the FILE_FLAG_RANDOM_ACCESS hint, `s`: the FILE_FLAG_SEQUENTIAL_SCAN hint and `t`: the FILE_ATTRIBUTE_TEMPORARY hint. Note that these hints are generally only applicable to cached I/O. |
+| `-F<count>` | Total number of threads. Conflicts with `-t`, the option to set the number of threads per file. |
 | `-g<bytes per ms>` | Throughput per-thread per-target is throttled to the given number of bytes per millisecond. This option is incompatible with completion routines. (See `-x`.) |
 | `-h` | Deprecated but still honored; see `-Sh`. |
 | `-i<count>` | Number of I/Os (burst size) to issue before pausing. Must be specified in combination with `-j`. |
