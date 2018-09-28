@@ -26,6 +26,7 @@ All available options and parameters are listed in the tables below and are furt
 | `-l` | Use large pages for I/O buffers. |
 | `-L` | Measure latency statistics. Full per-thread per-target distributions are available using the XML result option. |
 | `-n` | Disable default affinity. (See `-ag`.) |
+| `-N<vni>` | Specifies the flush mode used with memory mapped I/O: `v` uses the FlushViewOfFile API, `n` uses the the RtlFlushNonVolatileMemory API, `i` uses RtlFlushNonVolatileMemory without waiting for the flush to drain. |
 | `-o<count>` | Number of outstanding I/O requests per-target per-thread. (1 = synchronous I/O, unless more than one thread is specified with by using `-F`.) (default = 2) |
 | `-O<count>` | Total number of I/O requests per shared thread across all targets. (1 = synchronous I/O.)  Must be specified with `-F`. |
 | `-p` | Start asynchronous (overlapped) I/O operations with the same offset. Only applicable with two or more outstanding I/O requests per thread (`-o2` or greater) |
@@ -33,11 +34,12 @@ All available options and parameters are listed in the tables below and are furt
 | `-r<alignment>[K\|M\|G\|b]` | Random I/O aligned to the specified number of `<alignment>` bytes or KiB, MiB, GiB, or blocks. Overrides `-s`. |
 | `-R[text\|xml]` | Display test results in either text or XML format (default: text). |
 | `-s[i]<size>[K\|M\|G\|b]` | Sequential stride size, offset between subsequent I/O operations in bytes or KiB, MiB, GiB, or blocks. Ignored if `-r` is specified (default access = sequential, default stride = block size). By default each thread tracks its own sequential offset. If the optional interlocked (`i`) qualifier is used, a single interlocked offset is shared between all threads operating on a given target so that the threads cooperatively issue a single sequential pattern of access to the target.  |
-| `-S[bhruw]` | This flag modifies the caching and write-through modes for the test target. Any non-conflicting combination of modifiers can be specified (`-Sbu` conflicts, `-Shw` specifies `w` twice) and are order independent (`-Suw` and `-Swu` are equivalent). By default, caching is on and write-through is not specified. |
+| `-S[bhmruw]` | This flag modifies the caching and write-through modes for the test target. Any non-conflicting combination of modifiers can be specified (`-Sbu` conflicts, `-Shw` specifies `w` twice) and are order independent (`-Suw` and `-Swu` are equivalent). By default, caching is on and write-through is not specified. |
 | `-S` | No modifying flags specified: disable software caching. Deprecated but still honored; see `-Su`. This opens the target with the FILE_FLAG_NO_BUFFERING flag. This is included in `-Sh`. |
 | `-Sb` | Enable software cache (default, explicitly stated). Can be combined with `w`. |
 | `-Sh` | Disable both software caching and hardware write caching. This opens the target with the FILE_FLAG_NO_BUFFERING and FILE_FLAG_WRITE_THROUGH flags and is equivalent to `-Suw`. |
 | `-Sr` | Disable local caching for remote file systems. This leaves the remote system's cache enabled. Can be combined with `w`. |
+| `-Sm` | Enable memory mapped I/O. If the `-Smw` option is specified then non-temporal memory copies will be used. |
 | `-Su` | Disable software caching, for unbuffered I/O. This opens the target with the FILE_FLAG_NO_BUFFERING flag. This option is equivalent `-S` with no modifiers. Can be combined with `w`. |
 | `-Sw` | Enable write-through I/O. This opens the target with the FILE_FLAG_WRITE_THROUGH flag. This can be combined with either buffered (`-Sw` or `-Sbw`) or unbuffered I/O (`-Suw`). It is included in `-Sh`. Note: SATA HDDs will generally not honor write through intent on individual I/Os. Devices with persistent write caches – certain enterprise flash drives and most storage arrays – will complete write-through writes when the write is stable in cache. In both cases, `-S`/`-Su` and `-Sh`/`-Suw` will see equivalent behavior. |
 | `-t<count>` | Number of threads per target. Conflicts with `-F`, which specifies the total number of threads. |

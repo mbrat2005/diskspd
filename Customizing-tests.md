@@ -422,8 +422,29 @@ Note that the total behavior of a multi-threaded test also depends on thread sch
 Use the `-v` parameter to run DiskSpd in verbose mode. In verbose mode, DiskSpd returns the following information about its actions:
 * When a worker thread is created
 * When start and end signals are sent to worker threads
-* The offset of the next I/O operation (along with the worker thread number and I/O number)
 * Start and stop time for each NT Kernel Logger session
+
+Note: Displaying detailed I/O information has been migrated to an Event Tracing for Windows event to minimize the performance impact.
+
+## Capturing Event Tracing for Windows (ETW) events from DiskSpd
+DiskSpd provides Event Tracing for Windows (ETW) events. When tracing is enabled, DiskSpd provides the following information about its actions:
+* When a warm-up, run-time or cool-down phase starts or stops
+* The offset of the next I/O operation (along with the worker thread number, the I/O type and block size)
+* A set of statistics that include the number of bytes and I/O count issued during the run phase
+
+To capture the run-time and statistics events, the Windows Performance Recorder (WPR) can be used with the diskspd.wprp profile:
+
+`wpr -start diskspd.wprp!DiskSpd.Light`
+
+After running DiskSpd the trace can be stopped using the following command:
+
+`wpr -stop diskspd.etl`
+
+If more detailed information is required, WPR can be configured to capture verbose tracing:
+
+`wpr -start diskspd.wprp!DiskSpd.Verbose`
+
+The ETL trace can then be analyzed using tools such as the [Windows Performance Analyzer (WPA)](https://docs.microsoft.com/en-us/windows-hardware/test/wpt/windows-performance-analyzer).
 
 ## Use named events to synchronize testing
 DiskSpd can synchronize on named events that the user provides. If any event that is specified using these parameters (`-ys`, `-yf`, `-yr`, or `-yp`) does not exist, DiskSpd creates a notification event.
