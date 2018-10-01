@@ -432,7 +432,7 @@ DiskSpd provides Event Tracing for Windows (ETW) events. When tracing is enabled
 * The offset of the next I/O operation (along with the worker thread number, the I/O type and block size)
 * A set of statistics that include the number of bytes and I/O count issued during the run phase
 
-To capture the run-time and statistics events, the Windows Performance Recorder (WPR) can be used with the diskspd.wprp profile:
+To capture the run-time and statistics events, the [Windows Performance Recorder (WPR)](https://docs.microsoft.com/en-us/windows-hardware/test/wpt/windows-performance-recorder) can be used with the [diskspd.wprp](https://github.com/Microsoft/diskspd/blob/master/diskspd.wprp) profile:
 
 `wpr -start diskspd.wprp!DiskSpd.Light`
 

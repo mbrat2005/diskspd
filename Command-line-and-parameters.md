@@ -26,7 +26,7 @@ All available options and parameters are listed in the tables below and are furt
 | `-l` | Use large pages for I/O buffers. |
 | `-L` | Measure latency statistics. Full per-thread per-target distributions are available using the XML result option. |
 | `-n` | Disable default affinity. (See `-ag`.) |
-| `-N<vni>` | Specifies the flush mode used with memory mapped I/O: `v` uses the FlushViewOfFile API, `n` uses the the RtlFlushNonVolatileMemory API, `i` uses RtlFlushNonVolatileMemory without waiting for the flush to drain. |
+| `-N<vni>` | Specifies the flush mode used with memory mapped I/O: `v`: uses the [FlushViewOfFile](https://msdn.microsoft.com/en-us/library/windows/desktop/aa366563(v=vs.85).aspx) API, `n`: uses the the [RtlFlushNonVolatileMemory](https://docs.microsoft.com/en-us/windows-hardware/drivers/ddi/content/ntddk/nf-ntddk-rtlflushnonvolatilememory) API, `i`: uses RtlFlushNonVolatileMemory without waiting for the flush to drain. |
 | `-o<count>` | Number of outstanding I/O requests per-target per-thread. (1 = synchronous I/O, unless more than one thread is specified with by using `-F`.) (default = 2) |
 | `-O<count>` | Total number of I/O requests per shared thread across all targets. (1 = synchronous I/O.)  Must be specified with `-F`. |
 | `-p` | Start asynchronous (overlapped) I/O operations with the same offset. Only applicable with two or more outstanding I/O requests per thread (`-o2` or greater) |
