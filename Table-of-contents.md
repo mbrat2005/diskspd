@@ -33,6 +33,7 @@
    * [Display a progress indicator](Customizing-tests#display-a-progress-indicator)
    * [Control the initial state of the random number generator](Customizing-tests#control-the-initial-state-of-the-random-number-generator)
    * [Run DiskSpd in verbose mode](Customizing-tests#run-diskspd-in-verbose-mode)
+   * [Capturing Event Tracing for Windows (ETW) events from DiskSpd](Customizing-tests#capturing-event-tracing-for-windows-etw-events-from-diskspd)
    * [Use named events to synchronize testing](Customizing-tests#use-named-events-to-synchronize-testing)
    * [Use an XML file to provide DiskSpd parameters](Customizing-tests#use-an-xml-file-to-provide-diskspd-parameters)
      * [Creating an XML profile file](Customizing-tests#creating-an-xml-profile-file)
