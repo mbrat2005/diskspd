@@ -2,7 +2,17 @@ DiskSpd is a command-line utility that is invoked using the following syntax:
 
 `diskspd [options] target1 [ target2 [ target3 ...] ]`
 
-All available options and parameters are listed in the tables below and are further described in the [Customizing tests](Customizing-tests) section. Test targets can be regular files (e.g. C:\testfile.dat), partitions (e.g. C:), or physical drives (e.g. #1). Parameters can either be specified as command line options or as part of an XML profile.
+Test targets can be be specified as follows:
+
+* regular files: a normal filesystem path, e.g. C:\testfile.dat, \\server\share\testfile.dat, etc.
+* named partitions: DriveLetter:, e.g. C:, X:, etc.
+* physical devices: #PhysicalDiskId, e.g. #1, #5, etc.
+
+File and device targets are usually the most appropriate for any given situation. File targets exercise the entire filesystem and storage stack, while a device target focuses on device behavior. When using a device target it is a best practice to remove the filesystem and partitioning prior to doing a write test - see [Clear-Disk](https://docs.microsoft.com/en-us/powershell/module/storage/clear-disk).
+
+Partition targets are a special case and, without a very specific goal, not the right entry point for normal DISKSPD work. If the partition is not formatted with a filesystem, behavior will be similar to the device case and the IO path will be effectively that of a filesystem/storage utility - bounded by the partition, and managed through the RAW pseudo-filesystem. If the partition *is* formatted with a filesystem, the filesystem may prevent writes through the partition view - this is defensive against IO which would otherwise destroy the filesystem format. Respectively, using a device or file path would probably provide the most appropriate view of the storage behavior.
+
+All available options and parameters are listed in the tables below and are further described in the [Customizing tests](Customizing-tests) section. Parameters can either be specified as command line options or as part of an XML profile.
 
 | Parameter` | Description |
 | --- | --- |
