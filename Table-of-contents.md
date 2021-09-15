@@ -43,4 +43,3 @@
    * [Latency](Analyzing-test-results#latency)
    * [IOPs statistics](Analyzing-test-results#iops-statistics)
 5. [Sample command lines](Sample-command-lines)
-6. [Test Title](test)
