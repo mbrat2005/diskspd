@@ -10,7 +10,7 @@ Test targets can be be specified as follows:
 
 File and device targets are usually the most appropriate for any given situation. File targets exercise the entire filesystem and storage stack, while a device target focuses on device behavior. When using a device target it is a best practice to remove the filesystem and partitioning prior to doing a write test - see [Clear-Disk](https://docs.microsoft.com/en-us/powershell/module/storage/clear-disk).
 
-Partition targets are a special case and, without a very specific goal, not the right entry point for normal DISKSPD work. If the partition is not formatted with a filesystem, behavior will be similar to the device case and the IO path will be effectively that of a filesystem/storage utility - bounded by the partition, and managed through the RAW pseudo-filesystem. If the partition *is* formatted with a filesystem, the filesystem may prevent writes through the partition view - this is defensive against IO which would otherwise destroy the filesystem format. Respectively, using a device or file path would probably provide the most appropriate view of the storage behavior.
+Partition targets are a special case and, without a very specific goal, not the right entry point for normal DiskSpd work. If the partition is not formatted with a filesystem, behavior will be similar to the device case and the I/O path will be effectively that of a filesystem/storage utility - bounded by the partition and managed through the RAW pseudo-filesystem. If the partition *is* formatted with a filesystem, the filesystem may prevent writes through the partition view - this is defensive against I/O which would otherwise destroy the filesystem format. Respectively, using a device or file path would probably provide the most appropriate view of the storage behavior.
 
 All available options and parameters are listed in the tables below and are further described in the [Customizing tests](Customizing-tests) section. Parameters can either be specified as command line options or as part of an XML profile.
 
@@ -29,6 +29,7 @@ All available options and parameters are listed in the tables below and are furt
 | `-f<rst>` | Open file with one or more additional access hints specified to the operating system: `r`: the FILE_FLAG_RANDOM_ACCESS hint, `s`: the FILE_FLAG_SEQUENTIAL_SCAN hint and `t`: the FILE_ATTRIBUTE_TEMPORARY hint. Note that these hints are generally only applicable to cached I/O. |
 | `-F<count>` | Total number of threads. Conflicts with `-t`, the option to set the number of threads per file. |
 | `-g<bytes per ms>` | Throughput per-thread per-target is throttled to the given number of bytes per millisecond. This option is incompatible with completion routines. (See `-x`.) |
+| `-g<I/O per second>i` | IOPS per thread is throttled to the given number of IOPS. |
 | `-h` | Deprecated but still honored; see `-Sh`. |
 | `-i<count>` | Number of I/Os (burst size) to issue before pausing. Must be specified in combination with `-j`. |
 | `-j<milliseconds>` | Pause in milliseconds before issuing a burst of I/Os. Must be specified in combination with `-i`. |
@@ -42,7 +43,10 @@ All available options and parameters are listed in the tables below and are furt
 | `-p` | Start asynchronous (overlapped) I/O operations with the same offset. Only applicable with two or more outstanding I/O requests per thread (`-o2` or greater) |
 | `-P<count>` | Print a progress dot after each specified `<count>` [default = 65536] of completed I/O operations. Counted separately by each thread. |
 | `-r<alignment>[K\|M\|G\|b]` | Random I/O aligned to the specified number of `<alignment>` bytes or KiB, MiB, GiB, or blocks. Overrides `-s`. |
+| `-rd[pct\abs]<distribution>` | Specifies non-uniform distribution of random I/O to the target. There are two types of distributions: percentage and absolute. The -rd flag is mutually exclusive to -s or -si. |
+| `-rs<percentage>` | Percentage of requests issued randomly, with respect to the last I/O issued. The result is a randomly distributed load of variably sized sequential runs. |
 | `-R[text\|xml]` | Display test results in either text or XML format (default: text). |
+| `-Rp<text|xml>` | Produces the text or XML profile with the specified input flags, with no load generated. This -Rp flag is compatible with the existing -X, -v, -z, -W/d/C flags. |
 | `-s[i]<size>[K\|M\|G\|b]` | Sequential stride size, offset between subsequent I/O operations in bytes or KiB, MiB, GiB, or blocks. Ignored if `-r` is specified (default access = sequential, default stride = block size). By default each thread tracks its own sequential offset. If the optional interlocked (`i`) qualifier is used, a single interlocked offset is shared between all threads operating on a given target so that the threads cooperatively issue a single sequential pattern of access to the target.  |
 | `-S[bhmruw]` | This flag modifies the caching and write-through modes for the test target. Any non-conflicting combination of modifiers can be specified (`-Sbu` conflicts, `-Shw` specifies `w` twice) and are order independent (`-Suw` and `-Swu` are equivalent). By default, caching is on and write-through is not specified. |
 | `-S` | No modifying flags specified: disable software caching. Deprecated but still honored; see `-Su`. This opens the target with the FILE_FLAG_NO_BUFFERING flag. This is included in `-Sh`. |
@@ -64,6 +68,7 @@ All available options and parameters are listed in the tables below and are furt
 | `-Zr` | Initialize the write buffer with random content before every write. This option adds a run-time cost to the write performance. |
 | `-Z<size>[K\|M\|G\|b]` | Separate read and write buffers and initialize a per-target write source buffer sized to the specified number of bytes or KiB, MiB, GiB, or blocks. This write source buffer is initialized with random data and per-I/O write data is selected from it at 4-byte granularity. |
 | `-Z<size>[K\|M\|G\|b],<file>` | Specifies using a file as the source of data to fill the write source buffers. |
+| `*<count>` | Specify this flag while generating an XML profile using the -Rpxml option in order to create template target files. When running the actual XML profile load, the user may override the initial target files with actual target file names. |
 
 Table 1. Command line parameters
 
@@ -115,6 +120,7 @@ To specify sizes to DiskSpd:
 * KiB: suffix a number with 'K' or 'k' (e.g. 64k)
 * MiB: suffix a number with 'M' or 'm' (e.g. 1m)
 * GiB: suffix a number with 'G' or 'g' (e.g. 10g)
+* TiB: suffix a number with 'T' or 't' (e.g. 1T)
 * multiples of blocks: suffix a number with 'b' (e.g. 5b) - multiplying the block size specified with `-b`
 
 Fractional sizes with decimal points such as 10.5 are not allowed.
