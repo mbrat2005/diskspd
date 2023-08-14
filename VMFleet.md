@@ -16,7 +16,7 @@ Create one cluster shared volume per node. To determine the appropriate CSV size
 * `$size = Get-FleetVolumeEstimate`
 
 Select the CSV size that fits your needs (depends on your resiliency type) and create the new volumes. Please replace the "New-Volume..." command with your desired resiliency volume creation command:
-* `Get-ClusterNode | ForEach-Object { New-Volume -FriendlyName <Node Volume Name> -FileSystemCSVFS_ReFS -StoragePoolFriendlyName S2D* -StorageTierFriendlyNames Mirror -StorageTierSizes $size[0].Mirror }`
+* `Get-ClusterNode | ForEach-Object { New-Volume -FriendlyName $_.name -FileSystem CSVFS_ReFS -StoragePoolFriendlyName S2D* -StorageTierFriendlyNames Mirror -StorageTierSizes $size[0].MirrorSize }`
 
 Set up the VMFleet directory structure within the Collect CSV. This creates four folders: Control, Flag, Result and Tools. DiskSpd.exe will come preinstalled in the Tools folder:
 * `Install-Fleet`
